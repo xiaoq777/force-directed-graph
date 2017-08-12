@@ -1,132 +1,132 @@
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<script src="https://d3js.org/d3.v4.min.js"></script>
-	</head>
-	
-	<body></body>
-	<script type="text/javascript">
-		var width = 2000;
-		var height = 2000;
-		var svg = d3.select("body").append("svg").attr("width",width).attr("height", height);
-		//鲁菜 川菜 粤菜 苏菜 浙菜 闽菜 湘菜 徽菜
-		var data = {
-					"鲁菜":["一品豆腐","葱烧海参","三丝鱼翅","白扒四宝","糖醋黄河鲤鱼","九转大肠","油爆双脆","扒原壳鲍鱼","油焖大虾","醋椒鱼","糟熘鱼片","温炝鳜鱼片","芫爆鱿鱼卷","木须肉","胶东四大温拌","糖醋里脊","红烧大虾","招远蒸丸","清蒸加吉鱼","葱椒鱼","糖酱鸡块","油泼豆莛","诗礼银杏","奶汤蒲菜","乌鱼蛋汤","锅烧鸭","香酥鸡","黄鱼豆腐羹","拔丝山药","蜜汁梨球","砂锅散丹","布袋鸡","芙蓉鸡片","氽芙蓉黄管","油泼豆莛","阳关三叠","雨前虾仁","乌云托月","太公望红焖鸡","卤煮鸡杂","鸡丝汤","黄焖鸡块","锅塌黄鱼","奶汤鲫鱼","烧二冬","泰山三美汤","清汤西施舌","赛螃蟹","烩两鸡丝","象眼鸽蛋","云片猴头菇","油爆鱼芹","酥炸全蝎","西瓜鸡"], 
-					"川菜":["鱼香肉丝","宫保鸡丁","水煮鱼","水煮肉片","夫妻肺片","辣子鸡丁","麻婆豆腐","回锅肉","曹八嬢米豆腐","东坡肘子","东坡肉","棒棒鸡","泡椒凤爪","灯影牛肉","廖排骨","口水鸡","酸辣土豆丝","香辣虾","尖椒炒牛肉","四川火锅","麻辣香水鱼","板栗烧鸡","酸辣海蜇头","辣子鸡","香辣小龙虾","椒麻浸鲈鱼","麻辣鳝鱼","麻辣牛柳"], 
-					"粤菜":["阿一鲍鱼","广州文昌鸡","明炉烤乳猪","新龙皇夜宴","半岛御品官燕","清蒸东星斑","挂炉烧鹅","生拆蟹肉烩海虎翅","雁南飞茶田鸭","潮州卤味","白切鸡","红烧乳鸽","蜜汁叉烧","上汤焗龙虾","鲍汁扣辽参","菜胆炖鱼翅","龙虾烩鲍鱼","椰汁冰糖燕窝","麒麟鲈鱼","白灼虾","干炒牛河","老火靓汤","煲仔饭","广式烧填鸭","豉汁蒸排骨","菠萝咕噜肉","香煎芙蓉蛋","鼎湖上素","烟筒白菜","鱼香茄子煲","太爷鸡","香芋扣肉","南乳粗斋煲","卤水猪手","卤鹅肝","蚝烙","芙蓉虾","沙茶牛肉","客家酿豆腐","梅菜扣肉","盐焗鸡","猪肚包鸡","盆菜"],
-					"苏菜":["枣泥拉糕","小方糕","三鲜馄饨","酒酿圆子","豆腐花","船点","青团子","八宝饭","烤方","水晶肴蹄","扬州炒饭","清炖蟹粉狮子头","金陵丸子","白汁圆菜","黄泥煨鸡","清炖鸡孚","盐水鸭","碧螺虾仁","蜜汁火方","樱桃肉","母油船鸭","烂糊","黄焖栗子鸡","莼菜银鱼汤","万三蹄","响油鳝糊","金香饼","鸡汤煮干丝","肉酿生麸","凤尾虾","三套鸭","无锡肉骨头","梁溪脆鳝","苏式酱肉和酱鸭"],
-					"浙菜":["西湖醋鱼","东坡肉","赛蟹羹","家乡南肉","干炸响铃","荷叶粉蒸肉","西湖莼菜汤","龙井虾仁","杭州煨鸡","虎跑素火煺","干菜焖肉","蛤蜊黄鱼羹","叫化童鸡香酥焖肉","丝瓜卤蒸黄鱼","三丝拌蛏","油焖春笋","虾爆鳝背","新风蟹誊","雪菜大汤黄鱼","冰糖甲鱼","蜜汁灌藕","嘉兴五芳斋粽子","宁波汤团","湖州千张包子"], 
-					"闽菜":["佛跳墙","福州鱼丸","鼎边糊","漳州卤面","莆田卤面","海蛎煎","沙县拌面","扁食","厦门沙茶面","面线糊","闽南咸饭","兴化米粉","荔枝肉","乌柳居","白雪鸡","闽生果，醉排骨","红糟鱼排","长汀豆腐干"], 
-					"湘菜":["组庵豆腐","组庵鱼翅","剁椒鱼头","辣椒炒肉","湘西外婆菜","吉首酸肉","牛肉粉","郴州鱼粉","东安鸡","金鱼戏莲","永州血鸭","腊味合蒸","姊妹团子 ","宁乡口味蛇","岳阳姜辣蛇"], 
-					"徽菜":["火腿炖甲鱼","红烧果子狸","黄山炖鸽","清蒸石鸡","腌鲜鳜鱼","香菇盒","问政山笋","双爆串飞","虎皮毛豆腐","香菇板栗","杨梅丸子","凤炖牡丹","双脆锅巴","徽州圆子","蛏干烧肉","清蒸鹰龟","青螺炖鸭","方腊鱼","当归獐肉","一品锅","中和汤"]};
-		var nodes = [{name:"八大菜系", color:"#79CDCD", r:20}];
-		
-		var links = [];
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+    </head>
+    
+    <body></body>
+    <script type="text/javascript">
+        var width = 2000;
+        var height = 2000;
+        var svg = d3.select("body").append("svg").attr("width",width).attr("height", height);
+        //鲁菜 川菜 粤菜 苏菜 浙菜 闽菜 湘菜 徽菜
+        var data = {
+                    "鲁菜":["一品豆腐","葱烧海参","三丝鱼翅","白扒四宝","糖醋黄河鲤鱼","九转大肠","油爆双脆","扒原壳鲍鱼","油焖大虾","醋椒鱼","糟熘鱼片","温炝鳜鱼片","芫爆鱿鱼卷","木须肉","胶东四大温拌","糖醋里脊","红烧大虾","招远蒸丸","清蒸加吉鱼","葱椒鱼","糖酱鸡块","油泼豆莛","诗礼银杏","奶汤蒲菜","乌鱼蛋汤","锅烧鸭","香酥鸡","黄鱼豆腐羹","拔丝山药","蜜汁梨球","砂锅散丹","布袋鸡","芙蓉鸡片","氽芙蓉黄管","油泼豆莛","阳关三叠","雨前虾仁","乌云托月","太公望红焖鸡","卤煮鸡杂","鸡丝汤","黄焖鸡块","锅塌黄鱼","奶汤鲫鱼","烧二冬","泰山三美汤","清汤西施舌","赛螃蟹","烩两鸡丝","象眼鸽蛋","云片猴头菇","油爆鱼芹","酥炸全蝎","西瓜鸡"], 
+                    "川菜":["鱼香肉丝","宫保鸡丁","水煮鱼","水煮肉片","夫妻肺片","辣子鸡丁","麻婆豆腐","回锅肉","曹八嬢米豆腐","东坡肘子","东坡肉","棒棒鸡","泡椒凤爪","灯影牛肉","廖排骨","口水鸡","酸辣土豆丝","香辣虾","尖椒炒牛肉","四川火锅","麻辣香水鱼","板栗烧鸡","酸辣海蜇头","辣子鸡","香辣小龙虾","椒麻浸鲈鱼","麻辣鳝鱼","麻辣牛柳"], 
+                    "粤菜":["阿一鲍鱼","广州文昌鸡","明炉烤乳猪","新龙皇夜宴","半岛御品官燕","清蒸东星斑","挂炉烧鹅","生拆蟹肉烩海虎翅","雁南飞茶田鸭","潮州卤味","白切鸡","红烧乳鸽","蜜汁叉烧","上汤焗龙虾","鲍汁扣辽参","菜胆炖鱼翅","龙虾烩鲍鱼","椰汁冰糖燕窝","麒麟鲈鱼","白灼虾","干炒牛河","老火靓汤","煲仔饭","广式烧填鸭","豉汁蒸排骨","菠萝咕噜肉","香煎芙蓉蛋","鼎湖上素","烟筒白菜","鱼香茄子煲","太爷鸡","香芋扣肉","南乳粗斋煲","卤水猪手","卤鹅肝","蚝烙","芙蓉虾","沙茶牛肉","客家酿豆腐","梅菜扣肉","盐焗鸡","猪肚包鸡","盆菜"],
+                    "苏菜":["枣泥拉糕","小方糕","三鲜馄饨","酒酿圆子","豆腐花","船点","青团子","八宝饭","烤方","水晶肴蹄","扬州炒饭","清炖蟹粉狮子头","金陵丸子","白汁圆菜","黄泥煨鸡","清炖鸡孚","盐水鸭","碧螺虾仁","蜜汁火方","樱桃肉","母油船鸭","烂糊","黄焖栗子鸡","莼菜银鱼汤","万三蹄","响油鳝糊","金香饼","鸡汤煮干丝","肉酿生麸","凤尾虾","三套鸭","无锡肉骨头","梁溪脆鳝","苏式酱肉和酱鸭"],
+                    "浙菜":["西湖醋鱼","东坡肉","赛蟹羹","家乡南肉","干炸响铃","荷叶粉蒸肉","西湖莼菜汤","龙井虾仁","杭州煨鸡","虎跑素火煺","干菜焖肉","蛤蜊黄鱼羹","叫化童鸡香酥焖肉","丝瓜卤蒸黄鱼","三丝拌蛏","油焖春笋","虾爆鳝背","新风蟹誊","雪菜大汤黄鱼","冰糖甲鱼","蜜汁灌藕","嘉兴五芳斋粽子","宁波汤团","湖州千张包子"], 
+                    "闽菜":["佛跳墙","福州鱼丸","鼎边糊","漳州卤面","莆田卤面","海蛎煎","沙县拌面","扁食","厦门沙茶面","面线糊","闽南咸饭","兴化米粉","荔枝肉","乌柳居","白雪鸡","闽生果，醉排骨","红糟鱼排","长汀豆腐干"], 
+                    "湘菜":["组庵豆腐","组庵鱼翅","剁椒鱼头","辣椒炒肉","湘西外婆菜","吉首酸肉","牛肉粉","郴州鱼粉","东安鸡","金鱼戏莲","永州血鸭","腊味合蒸","姊妹团子 ","宁乡口味蛇","岳阳姜辣蛇"], 
+                    "徽菜":["火腿炖甲鱼","红烧果子狸","黄山炖鸽","清蒸石鸡","腌鲜鳜鱼","香菇盒","问政山笋","双爆串飞","虎皮毛豆腐","香菇板栗","杨梅丸子","凤炖牡丹","双脆锅巴","徽州圆子","蛏干烧肉","清蒸鹰龟","青螺炖鸭","方腊鱼","当归獐肉","一品锅","中和汤"]};
+        var nodes = [{name:"八大菜系", color:"#79CDCD", r:20}];
+        
+        var links = [];
 
-		(function(){
-			for(var i in data){
-				nodes.push({name:i, color:"#F0FFFF", r:20});
-				var indexI = nodes.length-1;
-				links.push({source:0, target:indexI})
-				for(var j in data[i]){
-					nodes.push({name:data[i][j], color:"#EEC900", r:5});
-					var indexJ = nodes.length-1;
-					links.push({source:indexI, target:indexJ})
-				}
-			}
-		})();
+        (function(){
+            for(var i in data){
+                nodes.push({name:i, color:"#F0FFFF", r:20});
+                var indexI = nodes.length-1;
+                links.push({source:0, target:indexI})
+                for(var j in data[i]){
+                    nodes.push({name:data[i][j], color:"#EEC900", r:5});
+                    var indexJ = nodes.length-1;
+                    links.push({source:indexI, target:indexJ})
+                }
+            }
+        })();
 
-		var lines = svg.selectAll("line")
-						.data(links)
-						.enter()
-						.append("line");
+        var lines = svg.selectAll("line")
+                        .data(links)
+                        .enter()
+                        .append("line");
 
-		var circles = svg.selectAll("circle")
-							.data(nodes)
-							.enter()
-							.append("circle")
-							.style("fill", function(d) { return d.color; });
+        var circles = svg.selectAll("circle")
+                            .data(nodes)
+                            .enter()
+                            .append("circle")
+                            .style("fill", function(d) { return d.color; });
 
-		var text = svg.selectAll("text")
-							.data(nodes)
-							.enter()
-							.append("text")
-							.text(function(d){ return d.name})
-							.attr("font-size", "10px")
-							//.attr("fill", "#");
+        var text = svg.selectAll("text")
+                            .data(nodes)
+                            .enter()
+                            .append("text")
+                            .text(function(d){ return d.name})
+                            .attr("font-size", "10px")
+                            //.attr("fill", "#");
 
-		circles
-		  .call(d3.drag()
-		  //.subject(dragsubject)
-		  .on("start", dragstarted)
+        circles
+          .call(d3.drag()
+          //.subject(dragsubject)
+          .on("start", dragstarted)
           .on("drag", dragged)
           .on("end", dragended));
 
         function dragsubject() {
-			return simulation.find(d3.event.x, d3.event.y);
-		}
+            return simulation.find(d3.event.x, d3.event.y);
+        }
 
-		function dragstarted() {
-		  simulation.alphaTarget(0.1).restart();
-		  d3.event.subject.fx = d3.event.subject.x;
-		  d3.event.subject.fy = d3.event.subject.y;
-		}
+        function dragstarted() {
+          simulation.alphaTarget(0.1).restart();
+          d3.event.subject.fx = d3.event.subject.x;
+          d3.event.subject.fy = d3.event.subject.y;
+        }
 
-		function dragged() {
-		  d3.event.subject.fx = d3.event.x;
-		  d3.event.subject.fy = d3.event.y;
-		}
+        function dragged() {
+          d3.event.subject.fx = d3.event.x;
+          d3.event.subject.fy = d3.event.y;
+        }
 
-		function dragended() {
-		  simulation.alphaTarget(0);
-		  d3.event.subject.fx = null;
-		  d3.event.subject.fy = null;
-		}
+        function dragended() {
+          simulation.alphaTarget(0);
+          d3.event.subject.fx = null;
+          d3.event.subject.fy = null;
+        }
 
-		var simulation = d3.forceSimulation(nodes);
+        var simulation = d3.forceSimulation(nodes);
 
-		simulation
-			.force("charge", d3.forceManyBody().strength(-1000))
-    		.force("link", d3.forceLink(links).distance(1).strength(2))
-    		.force("center", d3.forceCenter().x(width/2).y(height/2))
-    		.on("tick", ticked);
+        simulation
+            .force("charge", d3.forceManyBody().strength(-1000))
+            .force("link", d3.forceLink(links).distance(1).strength(2))
+            .force("center", d3.forceCenter().x(width/2).y(height/2))
+            .on("tick", ticked);
 
-    	function ticked(){
-    		lines
-				.attr("stroke", "#ccc")
-				.attr("x1", function(d){
-					return d.source.x;
-				})
-				.attr("y1", function(d){
-					return d.source.y;
-				})
-				.attr("x2", function(d){
-					return d.target.x;
-				})
-				.attr("y2", function(d){
-					return d.target.y;
-				});
+        function ticked(){
+            lines
+                .attr("stroke", "#ccc")
+                .attr("x1", function(d){
+                    return d.source.x;
+                })
+                .attr("y1", function(d){
+                    return d.source.y;
+                })
+                .attr("x2", function(d){
+                    return d.target.x;
+                })
+                .attr("y2", function(d){
+                    return d.target.y;
+                });
 
-    		circles
-	    		.attr("r", function(d){
-	    			return d.r;
-	    		})
-				.attr("cx", function(d){
-								return d.x;
-				})
-				.attr("cy", function(d){
-					return d.y;
-				});
+            circles
+                .attr("r", function(d){
+                    return d.r;
+                })
+                .attr("cx", function(d){
+                                return d.x;
+                })
+                .attr("cy", function(d){
+                    return d.y;
+                });
 
-			text
-				.attr("x", function(d){
-					return d.x;
-				})
-				.attr("y", function(d){
-					return d.y;
-				})
+            text
+                .attr("x", function(d){
+                    return d.x;
+                })
+                .attr("y", function(d){
+                    return d.y;
+                })
 
-    	}
-		
-	</script>
+        }
+        
+    </script>
 </html>
